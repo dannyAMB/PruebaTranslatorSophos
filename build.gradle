@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.gauge' version '1.8.1'
+}
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+group = 'millicom'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.thoughtworks.gauge:gauge-java:0.7.2'
+    implementation 'com.google.guava:guava:30.1-jre'
+    implementation 'junit:junit:4.12'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
+    compile('org.seleniumhq.selenium:selenium-java:3.4.0') {
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-android-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-iphone-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-safari-driver'
+        exclude group: 'org.webbitserver', module: 'webbit'
+        exclude group: 'commons-codec', module: 'commons-codec'
+        exclude group: 'cglib', module: 'cglib-nodep'
+    }
+}
+
+task gaugeTest(type: com.thoughtworks.gauge.gradle.GaugeTask){
+    doFirst {
+        gauge{
+            inParallel = true
+            nodes = 1
+            env = 'default'
+            additionalFlags = '--verbose'
+        }
+    }
+}
+
+
+

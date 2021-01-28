@@ -1,2 +1,1 @@
 # PruebaTranslatorSophos
-khjbjkm11
